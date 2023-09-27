@@ -1,14 +1,15 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+import { HardhatUserConfig } from 'hardhat/config';
 
-import '@typechain/hardhat';
-import '@nomicfoundation/hardhat-ethers';
 import '@nomicfoundation/hardhat-chai-matchers';
-import '@nomiclabs/hardhat-truffle5';
+import '@nomicfoundation/hardhat-ethers';
 import '@nomicfoundation/hardhat-network-helpers';
+import '@nomiclabs/hardhat-truffle5';
+import '@openzeppelin/hardhat-upgrades';
+import '@typechain/hardhat';
 import 'hardhat-deploy';
 
 const config: HardhatUserConfig = {
@@ -33,6 +34,7 @@ const config: HardhatUserConfig = {
         base: {
             chainId: 8453,
             url: process.env.BASE_RPC_URL!,
+            gasPrice: 4000000,
             //ovm: true,
             accounts: [process.env.BASE_DEPLOYER_KEY!],
             verify: {
@@ -48,6 +50,9 @@ const config: HardhatUserConfig = {
             default: 0,
         },
     },
+    etherscan: {
+        apiKey: process.env.BASE_ETHERSCAN_KEY
+    }
 };
 
 export default config;

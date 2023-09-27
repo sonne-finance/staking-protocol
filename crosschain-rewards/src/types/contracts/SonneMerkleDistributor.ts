@@ -26,28 +26,50 @@ import type {
 export interface SonneMerkleDistributorInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "DEFAULT_ADMIN_ROLE"
+      | "FUNDS_ROLE"
+      | "MANAGER_ROLE"
       | "Rewards"
       | "addReward"
       | "claim"
       | "delegatorAddresses"
+      | "getRoleAdmin"
+      | "grantRole"
+      | "hasRole"
+      | "initialize"
       | "isClaimable"
-      | "owner"
-      | "renounceOwnership"
+      | "renounceRole"
+      | "revokeRole"
       | "rewardToken"
       | "rewards"
       | "setDelegator"
-      | "transferOwnership"
+      | "supportsInterface"
       | "withdrawFunds"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
+      | "Initialized"
       | "MerkleClaim"
       | "MerkleFundUpdate"
       | "NewMerkle"
-      | "OwnershipTransferred"
+      | "RoleAdminChanged"
+      | "RoleGranted"
+      | "RoleRevoked"
   ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "FUNDS_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "MANAGER_ROLE",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "Rewards",
     values: [BigNumberish]
@@ -65,13 +87,32 @@ export interface SonneMerkleDistributorInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "grantRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isClaimable",
     values: [BigNumberish, AddressLike, BytesLike[]]
   ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
+    functionFragment: "renounceRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [BytesLike, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "rewardToken",
@@ -86,14 +127,23 @@ export interface SonneMerkleDistributorInterface extends Interface {
     values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [AddressLike]
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "withdrawFunds",
     values: [BigNumberish, BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "FUNDS_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "MANAGER_ROLE",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "Rewards", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
@@ -102,14 +152,21 @@ export interface SonneMerkleDistributorInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "isClaimable",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "rewardToken",
     data: BytesLike
@@ -120,13 +177,25 @@ export interface SonneMerkleDistributorInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "withdrawFunds",
     data: BytesLike
   ): Result;
+}
+
+export namespace InitializedEvent {
+  export type InputTuple = [version: BigNumberish];
+  export type OutputTuple = [version: bigint];
+  export interface OutputObject {
+    version: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace MerkleClaimEvent {
@@ -213,12 +282,57 @@ export namespace NewMerkleEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace OwnershipTransferredEvent {
-  export type InputTuple = [previousOwner: AddressLike, newOwner: AddressLike];
-  export type OutputTuple = [previousOwner: string, newOwner: string];
+export namespace RoleAdminChangedEvent {
+  export type InputTuple = [
+    role: BytesLike,
+    previousAdminRole: BytesLike,
+    newAdminRole: BytesLike
+  ];
+  export type OutputTuple = [
+    role: string,
+    previousAdminRole: string,
+    newAdminRole: string
+  ];
   export interface OutputObject {
-    previousOwner: string;
-    newOwner: string;
+    role: string;
+    previousAdminRole: string;
+    newAdminRole: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace RoleGrantedEvent {
+  export type InputTuple = [
+    role: BytesLike,
+    account: AddressLike,
+    sender: AddressLike
+  ];
+  export type OutputTuple = [role: string, account: string, sender: string];
+  export interface OutputObject {
+    role: string;
+    account: string;
+    sender: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace RoleRevokedEvent {
+  export type InputTuple = [
+    role: BytesLike,
+    account: AddressLike,
+    sender: AddressLike
+  ];
+  export type OutputTuple = [role: string, account: string, sender: string];
+  export interface OutputObject {
+    role: string;
+    account: string;
+    sender: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -269,6 +383,12 @@ export interface SonneMerkleDistributor extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
+
+  FUNDS_ROLE: TypedContractMethod<[], [string], "view">;
+
+  MANAGER_ROLE: TypedContractMethod<[], [string], "view">;
+
   Rewards: TypedContractMethod<
     [arg0: BigNumberish],
     [
@@ -306,15 +426,43 @@ export interface SonneMerkleDistributor extends BaseContract {
     "view"
   >;
 
+  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
+
+  grantRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
+  hasRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [boolean],
+    "view"
+  >;
+
+  initialize: TypedContractMethod<
+    [_rewardToken: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   isClaimable: TypedContractMethod<
     [blockNumber: BigNumberish, account: AddressLike, proof: BytesLike[]],
     [boolean],
     "view"
   >;
 
-  owner: TypedContractMethod<[], [string], "view">;
+  renounceRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
-  renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
+  revokeRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   rewardToken: TypedContractMethod<[], [string], "view">;
 
@@ -326,10 +474,10 @@ export interface SonneMerkleDistributor extends BaseContract {
     "nonpayable"
   >;
 
-  transferOwnership: TypedContractMethod<
-    [newOwner: AddressLike],
-    [void],
-    "nonpayable"
+  supportsInterface: TypedContractMethod<
+    [interfaceId: BytesLike],
+    [boolean],
+    "view"
   >;
 
   withdrawFunds: TypedContractMethod<
@@ -342,6 +490,15 @@ export interface SonneMerkleDistributor extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "DEFAULT_ADMIN_ROLE"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "FUNDS_ROLE"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "MANAGER_ROLE"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "Rewards"
   ): TypedContractMethod<
@@ -380,6 +537,26 @@ export interface SonneMerkleDistributor extends BaseContract {
     nameOrSignature: "delegatorAddresses"
   ): TypedContractMethod<[arg0: AddressLike], [string], "view">;
   getFunction(
+    nameOrSignature: "getRoleAdmin"
+  ): TypedContractMethod<[role: BytesLike], [string], "view">;
+  getFunction(
+    nameOrSignature: "grantRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "hasRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [boolean],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "initialize"
+  ): TypedContractMethod<[_rewardToken: AddressLike], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "isClaimable"
   ): TypedContractMethod<
     [blockNumber: BigNumberish, account: AddressLike, proof: BytesLike[]],
@@ -387,11 +564,19 @@ export interface SonneMerkleDistributor extends BaseContract {
     "view"
   >;
   getFunction(
-    nameOrSignature: "owner"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: "renounceRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
-    nameOrSignature: "renounceOwnership"
-  ): TypedContractMethod<[], [void], "nonpayable">;
+    nameOrSignature: "revokeRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "rewardToken"
   ): TypedContractMethod<[], [string], "view">;
@@ -406,8 +591,8 @@ export interface SonneMerkleDistributor extends BaseContract {
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "transferOwnership"
-  ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
+    nameOrSignature: "supportsInterface"
+  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "withdrawFunds"
   ): TypedContractMethod<
@@ -416,6 +601,13 @@ export interface SonneMerkleDistributor extends BaseContract {
     "nonpayable"
   >;
 
+  getEvent(
+    key: "Initialized"
+  ): TypedContractEvent<
+    InitializedEvent.InputTuple,
+    InitializedEvent.OutputTuple,
+    InitializedEvent.OutputObject
+  >;
   getEvent(
     key: "MerkleClaim"
   ): TypedContractEvent<
@@ -438,14 +630,39 @@ export interface SonneMerkleDistributor extends BaseContract {
     NewMerkleEvent.OutputObject
   >;
   getEvent(
-    key: "OwnershipTransferred"
+    key: "RoleAdminChanged"
   ): TypedContractEvent<
-    OwnershipTransferredEvent.InputTuple,
-    OwnershipTransferredEvent.OutputTuple,
-    OwnershipTransferredEvent.OutputObject
+    RoleAdminChangedEvent.InputTuple,
+    RoleAdminChangedEvent.OutputTuple,
+    RoleAdminChangedEvent.OutputObject
+  >;
+  getEvent(
+    key: "RoleGranted"
+  ): TypedContractEvent<
+    RoleGrantedEvent.InputTuple,
+    RoleGrantedEvent.OutputTuple,
+    RoleGrantedEvent.OutputObject
+  >;
+  getEvent(
+    key: "RoleRevoked"
+  ): TypedContractEvent<
+    RoleRevokedEvent.InputTuple,
+    RoleRevokedEvent.OutputTuple,
+    RoleRevokedEvent.OutputObject
   >;
 
   filters: {
+    "Initialized(uint8)": TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >;
+    Initialized: TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >;
+
     "MerkleClaim(address,address,uint256,uint256)": TypedContractEvent<
       MerkleClaimEvent.InputTuple,
       MerkleClaimEvent.OutputTuple,
@@ -479,15 +696,37 @@ export interface SonneMerkleDistributor extends BaseContract {
       NewMerkleEvent.OutputObject
     >;
 
-    "OwnershipTransferred(address,address)": TypedContractEvent<
-      OwnershipTransferredEvent.InputTuple,
-      OwnershipTransferredEvent.OutputTuple,
-      OwnershipTransferredEvent.OutputObject
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<
+      RoleAdminChangedEvent.InputTuple,
+      RoleAdminChangedEvent.OutputTuple,
+      RoleAdminChangedEvent.OutputObject
     >;
-    OwnershipTransferred: TypedContractEvent<
-      OwnershipTransferredEvent.InputTuple,
-      OwnershipTransferredEvent.OutputTuple,
-      OwnershipTransferredEvent.OutputObject
+    RoleAdminChanged: TypedContractEvent<
+      RoleAdminChangedEvent.InputTuple,
+      RoleAdminChangedEvent.OutputTuple,
+      RoleAdminChangedEvent.OutputObject
+    >;
+
+    "RoleGranted(bytes32,address,address)": TypedContractEvent<
+      RoleGrantedEvent.InputTuple,
+      RoleGrantedEvent.OutputTuple,
+      RoleGrantedEvent.OutputObject
+    >;
+    RoleGranted: TypedContractEvent<
+      RoleGrantedEvent.InputTuple,
+      RoleGrantedEvent.OutputTuple,
+      RoleGrantedEvent.OutputObject
+    >;
+
+    "RoleRevoked(bytes32,address,address)": TypedContractEvent<
+      RoleRevokedEvent.InputTuple,
+      RoleRevokedEvent.OutputTuple,
+      RoleRevokedEvent.OutputObject
+    >;
+    RoleRevoked: TypedContractEvent<
+      RoleRevokedEvent.InputTuple,
+      RoleRevokedEvent.OutputTuple,
+      RoleRevokedEvent.OutputObject
     >;
   };
 }

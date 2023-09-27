@@ -1,35 +1,37 @@
 {
-  "name": "Sonne-Cross-Chain-Reward-Distribution",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:0xjaki/Sonne-Cross-Chain-Reward-Distribution.git",
-  "author": "0xjaki <0xjakii@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "^3.0.4",
-    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@nomiclabs/hardhat-truffle5": "^2.0.7",
-    "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@openzeppelin/test-helpers": "^0.5.16",
-    "@typechain/ethers-v6": "^0.4.3",
-    "@typechain/hardhat": "^8.0.3",
-    "chai": "^4.3.7",
-    "ethers": "^6.7.0",
-    "hardhat": "^2.17.1",
-    "hardhat-deploy": "^0.11.37",
-    "mocha": "^10.2.0",
-    "typechain": "^8.3.1",
-    "typescript": "^5.1.6",
-    "web3": "^1.10.0"
-  },
-  "scripts": {
-    "test": "npx hardhat test",
-    "get:accountRoot": "npx hardhat run scripts/getAccountRoot.ts",
-    "get:proof": "npx hardhat run scripts/getProofForUser.ts"
-  },
-  "dependencies": {
-    "@eth-optimism/contracts-bedrock": "^0.16.0",
-    "@eth-optimism/core-utils": "^0.12.2",
-    "@openzeppelin/contracts": "^4.9.3"
-  }
+    "name": "Sonne-Cross-Chain-Reward-Distribution",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:0xjaki/Sonne-Cross-Chain-Reward-Distribution.git",
+    "author": "0xjaki <0xjakii@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "@eth-optimism/contracts-bedrock": "^0.16.0",
+        "@eth-optimism/core-utils": "^0.13.0",
+        "@nomicfoundation/hardhat-ethers": "^3.0.4",
+        "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+        "@nomiclabs/hardhat-truffle5": "^2.0.7",
+        "@nomiclabs/hardhat-web3": "^2.0.0",
+        "@openzeppelin/contracts": "^4.9.3",
+        "@openzeppelin/contracts-upgradeable": "^4.9.3",
+        "@openzeppelin/hardhat-upgrades": "^2.2.1",
+        "@openzeppelin/test-helpers": "^0.5.16",
+        "@typechain/ethers-v6": "^0.4.3",
+        "@typechain/hardhat": "^8.0.3",
+        "chai": "^4.3.7",
+        "ethers": "^6.7.0",
+        "hardhat": "^2.17.1",
+        "hardhat-deploy": "^0.11.37",
+        "mocha": "^10.2.0",
+        "typechain": "^8.3.1",
+        "typescript": "^5.1.6",
+        "web3": "^1.10.0"
+    },
+    "scripts": {
+        "test": "npx hardhat test",
+        "get:accountRoot": "npx hardhat run scripts/getAccountRoot.ts",
+        "get:proof": "npx hardhat run scripts/getProofForUser.ts",
+        "dev": "remixd -s $(pwd) --remix-ide https://remix.ethereum.org"
+    },
+    "dependencies": {}
 }

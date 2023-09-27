@@ -1,29 +1,25 @@
 import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { expect } from 'chai';
-import { ethers } from 'hardhat';
 import { sumArray } from './_utils';
+import hre, { ethers } from 'hardhat';
 
-const mantissa = ethers.BigNumber.from(10).pow(18);
+const mantissa = ethers.WeiPerEther;
 // 0 => staker0, 1 => staker1 [rows => stages] rewardAmount[stage][staker]
 const stakeAmounts = [
-    [ethers.utils.parseUnits('5', 18), ethers.utils.parseUnits('3', 18)], // first stake
-    [ethers.utils.parseUnits('1', 18), ethers.utils.parseUnits('2', 18)], // second stake
+    [ethers.parseUnits('5', 18), ethers.parseUnits('3', 18)], // first stake
+    [ethers.parseUnits('1', 18), ethers.parseUnits('2', 18)], // second stake
 ];
-const totalStakeAmountsByStage = stakeAmounts.map((stage) =>
-    stage.reduce((a, b) => a.add(b), ethers.BigNumber.from(0)),
-);
+const totalStakeAmountsByStage = stakeAmounts.map((stage) => stage.reduce((a, b) => a + b, 0n));
 const totalStakeAmountsByStaker = sumArray(stakeAmounts);
-const totalStakeAmounts = totalStakeAmountsByStaker.reduce((a, b) => a.add(b), ethers.BigNumber.from(0));
+const totalStakeAmounts = totalStakeAmountsByStaker.reduce((a, b) => a + b, 0n);
 // 0 => reward0, 1 => reward0 [rows => states] rewardAmount[stage][pool]
 const rewardAmounts = [
-    [ethers.utils.parseUnits('53', 18), ethers.utils.parseUnits('33', 18)], // first reward
-    [ethers.utils.parseUnits('23', 18), ethers.utils.parseUnits('13', 18)], // second reward
+    [ethers.parseUnits('53', 18), ethers.parseUnits('33', 18)], // first reward
+    [ethers.parseUnits('23', 18), ethers.parseUnits('13', 18)], // second reward
 ];
-const totalRewardAmountsByStage = rewardAmounts.map((stage) =>
-    stage.reduce((a, b) => a.add(b), ethers.BigNumber.from(0)),
-);
+const totalRewardAmountsByStage = rewardAmounts.map((stage) => stage.reduce((a, b) => a + b, 0n));
 const totalRewardAmountsByPool = sumArray(rewardAmounts);
-const totalRewardAmounts = totalRewardAmountsByPool.reduce((a, b) => a.add(b), ethers.BigNumber.from(0));
+const totalRewardAmounts = totalRewardAmountsByPool.reduce((a, b) => a + b, 0n);
 
 async function deployTokensFixture() {
     // Accounts
@@ -31,16 +27,16 @@ async function deployTokensFixture() {
 
     // Sonne
     const Sonne = await ethers.getContractFactory('MockERC20Token');
-    const sonne = await Sonne.connect(admin).deploy(ethers.utils.parseUnits('10000', 18), 18);
+    const sonne = await Sonne.connect(admin).deploy(ethers.parseUnits('10000', 18), 18);
 
     // Send some Sonne to the staker0 and staker1
-    await (await sonne.connect(admin).transfer(staker0.address, ethers.utils.parseUnits('10', 18))).wait(1);
-    await (await sonne.connect(admin).transfer(staker1.address, ethers.utils.parseUnits('10', 18))).wait(1);
+    await (await sonne.connect(admin).transfer(staker0.address, ethers.parseUnits('10', 18))).wait(1);
+    await (await sonne.connect(admin).transfer(staker1.address, ethers.parseUnits('10', 18))).wait(1);
 
     // reward0
     const MockERC20Token = await ethers.getContractFactory('MockERC20Token');
-    const reward0 = await MockERC20Token.connect(rewardHolder).deploy(ethers.utils.parseUnits('10000', 18), 18);
-    const reward1 = await MockERC20Token.connect(rewardHolder).deploy(ethers.utils.parseUnits('10000', 18), 18);
+    const reward0 = await MockERC20Token.connect(rewardHolder).deploy(ethers.parseUnits('10000', 18), 18);
+    const reward1 = await MockERC20Token.connect(rewardHolder).deploy(ethers.parseUnits('10000', 18), 18);
 
     // StakedDistributor
     const StakedDistributor = await ethers.getContractFactory('StakedDistributor');
@@ -87,7 +83,7 @@ describe('Staked Distributor Admin', function () {
 
         // Add a new reward token
         const MockERC20Token = await ethers.getContractFactory('MockERC20Token');
-        const reward2 = await MockERC20Token.connect(admin).deploy(ethers.utils.parseUnits('10000', 18), 18);
+        const reward2 = await MockERC20Token.connect(admin).deploy(ethers.parseUnits('10000', 18), 18);
         await expect(stakedDistributor.connect(admin).addToken(reward2.address)).to.not.be.reverted;
     });
 

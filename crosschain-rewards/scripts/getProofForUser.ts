@@ -6,11 +6,11 @@ async function main() {
         'https://opt-mainnet.g.alchemy.com/v2/o0342IMrRLY_Uj8PNpCRebPwMn1n1ql5',
     );
 
-    const uSonne = '0x41279e29586eb20f9a4f65e031af09fced171166';
-    const addr = '0xdAD29981B5FeeFEeaf3eF92E678e53c5620A1Fd8';
-    const blockNr = 108080039;
+    const sSonne = '0x41279e29586EB20f9a4f65e031Af09fced171166';
+    const blockNr = 109908917;
+    const addr = '0x969F2e54B4Aa4654F7c2f75Cbbd2d56910A1d371';
 
-    const proof = await getProofForUserShares(provider, uSonne, addr, blockNr);
+    const proof = await getProofForUserShares(provider, sSonne, addr, blockNr);
 
     console.log(proof);
 }

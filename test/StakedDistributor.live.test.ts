@@ -1,34 +1,29 @@
 import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { expect } from 'chai';
-import { BigNumber } from 'ethers';
-import { ethers } from 'hardhat';
+import hre, { ethers } from 'hardhat';
 import { sumArray } from './_utils';
 
 let sonneAddress = '0x1db2466d9f5e10d7090e7152b68d62703a2245f0';
 let usdcAddress = '0x7f5c764cbc14f9669b88837ca1490cca17c31607';
 let multiSigAddress = '0x784B82a27029C9E114b521abcC39D02B3D1DEAf2';
 
-const mantissa = ethers.BigNumber.from(10).pow(18);
+const mantissa = ethers.WeiPerEther;
 // 0 => staker0, 1 => staker1 [rows => stages] rewardAmount[stage][staker]
 const stakeAmounts = [
-    [ethers.utils.parseUnits('5', 18), ethers.utils.parseUnits('3', 18)], // first stake
-    [ethers.utils.parseUnits('1', 18), ethers.utils.parseUnits('2', 18)], // second stake
+    [ethers.parseUnits('5', 18), ethers.parseUnits('3', 18)], // first stake
+    [ethers.parseUnits('1', 18), ethers.parseUnits('2', 18)], // second stake
 ];
-const totalStakeAmountsByStage = stakeAmounts.map((stage) =>
-    stage.reduce((a, b) => a.add(b), ethers.BigNumber.from(0)),
-);
+const totalStakeAmountsByStage = stakeAmounts.map((stage) => stage.reduce((a, b) => a + b, 0n));
 const totalStakeAmountsByStaker = sumArray(stakeAmounts);
-const totalStakeAmounts = totalStakeAmountsByStaker.reduce((a, b) => a.add(b), ethers.BigNumber.from(0));
+const totalStakeAmounts = totalStakeAmountsByStaker.reduce((a, b) => a + b, 0n);
 // 0 => reward0, 1 => reward0 [rows => states] rewardAmount[stage][pool]
 const rewardAmounts = [
-    [ethers.utils.parseUnits('53', 18), ethers.utils.parseUnits('33', 6)], // first reward
-    [ethers.utils.parseUnits('23', 18), ethers.utils.parseUnits('13', 6)], // second reward
+    [ethers.parseUnits('53', 18), ethers.parseUnits('33', 6)], // first reward
+    [ethers.parseUnits('23', 18), ethers.parseUnits('13', 6)], // second reward
 ];
-const totalRewardAmountsByStage = rewardAmounts.map((stage) =>
-    stage.reduce((a, b) => a.add(b), ethers.BigNumber.from(0)),
-);
+const totalRewardAmountsByStage = rewardAmounts.map((stage) => stage.reduce((a, b) => a + b, 0n));
 const totalRewardAmountsByPool = sumArray(rewardAmounts);
-const totalRewardAmounts = totalRewardAmountsByPool.reduce((a, b) => a.add(b), ethers.BigNumber.from(0));
+const totalRewardAmounts = totalRewardAmountsByPool.reduce((a, b) => a + b, 0n);
 
 async function deployTokensFixture() {
     // Accounts
@@ -40,14 +35,14 @@ async function deployTokensFixture() {
     await (
         await deployer.sendTransaction({
             to: admin.address,
-            value: ethers.utils.parseEther('100'),
+            value: ethers.parseEther('100'),
         })
     ).wait(1);
 
     // Sonne
     const sonne = await getTokenContract({
         adminAddress: admin.address,
-        mintAmount: ethers.utils.parseEther('100000000'),
+        mintAmount: ethers.parseEther('100000000'),
         existingAddress: sonneAddress,
         whaleAddress: multiSigAddress,
         decimals: '18',
@@ -56,15 +51,16 @@ async function deployTokensFixture() {
     // USDC
     const usdc = await getTokenContract({
         adminAddress: admin.address,
-        mintAmount: ethers.utils.parseEther('100000'),
+        mintAmount: ethers.parseEther('100000'),
         existingAddress: usdcAddress,
         whaleAddress: '0xebe80f029b1c02862b9e8a70a7e5317c06f62cae',
         decimals: '6',
     });
 
     // Give participants some Sonne
-    const initialBalance0 = ethers.utils.parseEther('1500');
-    const initialBalance1 = ethers.utils.parseEther('5000');
+    const initialBalance0 = ethers.parseEther('1500');
+    const initialBalance1 = ethers.parseEther('5000');
+    console.log(sonne);
     await (await sonne.connect(admin).transfer(staker0.address, initialBalance0)).wait(1);
     await (await sonne.connect(admin).transfer(staker1.address, initialBalance1)).wait(1);
 
@@ -107,8 +103,8 @@ async function deployTokensFixture() {
     };
 }
 
-describe.only('Staked Distributor Admin', function () {
-    it.only('Should be able to add a new reward token', async function () {
+describe('Staked Distributor Admin', function () {
+    it('Should be able to add a new reward token', async function () {
         const { admin, stakedDistributor, reward0 } = await loadFixture(deployTokensFixture);
 
         // Add an already reward token
@@ -118,7 +114,7 @@ describe.only('Staked Distributor Admin', function () {
 
         // Add a new reward token
         const MockERC20Token = await ethers.getContractFactory('MockERC20Token');
-        const reward2 = await MockERC20Token.connect(admin).deploy(ethers.utils.parseUnits('10000', 18), 18);
+        const reward2 = await MockERC20Token.connect(admin).deploy(ethers.parseUnits('10000', 18), 18);
         await expect(stakedDistributor.connect(admin).addToken(reward2.address)).to.not.be.reverted;
     });
 
@@ -126,7 +122,7 @@ describe.only('Staked Distributor Admin', function () {
         const { admin, stakedDistributor, reward0 } = await loadFixture(deployTokensFixture);
 
         // Remove an invalid reward token
-        await expect(stakedDistributor.connect(admin).removeToken(ethers.constants.AddressZero)).to.be.revertedWith(
+        await expect(stakedDistributor.connect(admin).removeToken(ethers.ZeroAddress)).to.be.revertedWith(
             'Distributor: token not found',
         );
 
@@ -143,7 +139,7 @@ describe.only('Staked Distributor Admin', function () {
     });
 });
 
-describe.only('Staked Distributor', function () {
+describe('Staked Distributor', function () {
     it('Should deploy staked distributor', async function () {
         const { stakedDistributor } = await loadFixture(deployTokensFixture);
 
@@ -154,7 +150,7 @@ describe.only('Staked Distributor', function () {
         const { admin, stakedDistributor, reward0 } = await loadFixture(deployTokensFixture);
 
         // Add an invalid reward token
-        await expect(stakedDistributor.connect(admin).addReward(ethers.constants.AddressZero, 100)).to.be.revertedWith(
+        await expect(stakedDistributor.connect(admin).addReward(ethers.ZeroAddress, 100)).to.be.revertedWith(
             'Distributor: Invalid token',
         );
 
@@ -299,7 +295,7 @@ describe.only('Staked Distributor', function () {
     it('Should revert to claim invalid reward token', async function () {
         const { stakedDistributor, staker0 } = await loadFixture(deployTokensFixture);
 
-        await expect(stakedDistributor.connect(staker0).claim(ethers.constants.AddressZero)).to.be.revertedWith(
+        await expect(stakedDistributor.connect(staker0).claim(ethers.ZeroAddress)).to.be.revertedWith(
             'Distributor: Invalid token',
         );
     });
@@ -320,7 +316,7 @@ describe.only('Staked Distributor', function () {
 
 const getTokenContract = async (opts: {
     adminAddress: string;
-    mintAmount?: BigNumber;
+    mintAmount?: bigint;
     existingAddress?: string;
     whaleAddress?: string;
     decimals?: string;
@@ -338,7 +334,7 @@ const getTokenContract = async (opts: {
         return token;
     } else {
         const Token = await ethers.getContractFactory('MockERC20Token');
-        const token = await Token.deploy(opts.mintAmount || ethers.utils.parseEther('100000000'), 18);
+        const token = await Token.deploy(opts.mintAmount || ethers.parseEther('100000000'), 18);
         return token;
     }
 };

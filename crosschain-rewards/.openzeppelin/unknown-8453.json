@@ -1,0 +1,275 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x8D8e918A143395E04B56B5C842d73888AFdA2E64",
+      "txHash": "0x1850cafd750ba27c2ed63964ba7593dde6eeb25078d6b17de3c3602ad62b94ca",
+      "kind": "beacon"
+    },
+    {
+      "address": "0xda3248BFE1b28832649828C84B597d6122aa9640",
+      "txHash": "0x012ad82ab9406c4d321d0713cd99d0bde252e2883a728ad144b7b59f9a99ac71",
+      "kind": "beacon"
+    },
+    {
+      "address": "0xed90125874CA8e9B39f034f024878Ccb38b9Ec21",
+      "txHash": "0xdead6720fec62d2ce4e746a61dc1ac9f45d3ffd0c2fdf1940f832c85b34dc37a",
+      "kind": "beacon"
+    },
+    {
+      "address": "0x192bbC528DEa6A8c67F52FC1486a57Dcf46D4dCD",
+      "txHash": "0xcaf88cf8c3e54492eb61950a4a2af41a226e86ab72be008cd58cb646fce1b2b5",
+      "kind": "beacon"
+    },
+    {
+      "address": "0xAd92Abb940EEbaAc122D3ef365AD3A2aADb0315E",
+      "txHash": "0x9b2270668aa5ad8714a296ab83c065018701f0a1e3927892002d20d5ba3a9a9f",
+      "kind": "beacon"
+    },
+    {
+      "address": "0x02A46FFCFcF6FbD93dc38DA30FF09c3E151A2469",
+      "txHash": "0x24ba205d89ef0febe158d125bca48977ac0944113b85b183ab793e1de6f56834",
+      "kind": "beacon"
+    },
+    {
+      "address": "0x071B00ef6AD31Fb716955a1d70Ab26D47290120a",
+      "txHash": "0xc9124da774ce81cf0c59fa882550203442ee05158c91721367e2e920070f61f3",
+      "kind": "beacon"
+    },
+    {
+      "address": "0x6cbDABf17c4634fA4F9A0C4A5e73Fd869F9a9be8",
+      "txHash": "0x38918cc026338a3dc6fffb83929c41b01d0d2f59da4e79fc57682825d8dc7011",
+      "kind": "beacon"
+    },
+    {
+      "address": "0xA1918c958963DC7E710F5736A7fbCa7C32Bf501d",
+      "txHash": "0xac4b8ca5bd188f36cc36181f53060bef15f99ddef0a767a2d601fa194b032897",
+      "kind": "beacon"
+    },
+    {
+      "address": "0xcA31a8173AB19c3fa006D0Adc2883882F189797b",
+      "txHash": "0xb8f9e0da139aef42c36051c5551bdbf70f9cc1f66119098897d9c9dee9f68b0e",
+      "kind": "beacon"
+    }
+  ],
+  "impls": {
+    "db65d56e783cf822f6c41e083ee6f40069b9cfadd59ca2bfe602b6c3d071d3fe": {
+      "address": "0x41680c3b0e5Ac10960B389C38f98aCE3dd450F42",
+      "txHash": "0x992f9fbf392e691531f9ae726525bc0e11439b1327f9603772fdf9fbbd56bef8",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:88"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)1331_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:62"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "rewardToken",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IERC20)4251",
+            "contract": "SonneMerkleDistributor",
+            "src": "contracts/SonneMerkleDistributor.sol:32"
+          },
+          {
+            "label": "rewards",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_array(t_uint256)dyn_storage",
+            "contract": "SonneMerkleDistributor",
+            "src": "contracts/SonneMerkleDistributor.sol:33"
+          },
+          {
+            "label": "Rewards",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(Reward)5443_storage)",
+            "contract": "SonneMerkleDistributor",
+            "src": "contracts/SonneMerkleDistributor.sol:35"
+          },
+          {
+            "label": "delegatorAddresses",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_address)",
+            "contract": "SonneMerkleDistributor",
+            "src": "contracts/SonneMerkleDistributor.sol:36"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20)4251": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_bool)": {
+            "label": "mapping(bytes32 => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)1331_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Reward)5443_storage)": {
+            "label": "mapping(uint256 => struct SonneMerkleDistributor.Reward)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Reward)5443_storage": {
+            "label": "struct SonneMerkleDistributor.Reward",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "merkleRoot",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "withdrawUnlockTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "ratio",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "leafClaimed",
+                "type": "t_mapping(t_bytes32,t_bool)",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(RoleData)1331_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}

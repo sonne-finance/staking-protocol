@@ -11,6 +11,9 @@ const func: DeployFunction = async ({
     ethers,
     network,
 }: HardhatRuntimeEnvironment) => {
+    const isOp = network.name == 'optimism' || network.targetName == 'optimism';
+    if (!isOp) return;
+
     const { deployer } = await getNamedAccounts();
 
     const stakeDeploy = await deploy('uSonne', {
