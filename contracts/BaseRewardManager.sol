@@ -66,7 +66,7 @@ contract BaseRewardManager is AccessControlUpgradeable {
                 state.uMerkleRoot,
                 state.blockNumber,
                 state.withdrawUnlockTime,
-                state.sSupply
+                state.uSupply
             );
 
             // add for sSonne
