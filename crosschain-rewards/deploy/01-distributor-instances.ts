@@ -5,6 +5,7 @@ import { upgrades } from 'hardhat';
 import { deployBeaconProxy } from '../scripts/deploy-beacon-proxy';
 
 const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
+    return false;
     const CONTRACT_NAME = 'contracts/SonneMerkleDistributor.sol:SonneMerkleDistributor';
 
     const deployments = {

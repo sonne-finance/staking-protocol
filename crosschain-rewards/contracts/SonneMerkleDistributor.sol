@@ -142,7 +142,7 @@ contract SonneMerkleDistributor is
         reward.balance = reward.balance - rewardAmount;
 
         //Send reward tokens to the recipient
-        rewardToken.safeTransfer(recipient, rewardAmount);
+        rewardToken.safeTransfer(msg.sender, rewardAmount);
 
         emit MerkleClaim(recipient, address(rewardToken), blockNumber, rewardAmount);
     }

@@ -27,6 +27,8 @@ interface ISonneMerkleDistributor {
         uint256 totalStakedBalance
     ) external;
 
+    function setDelegator(address _recipient, address _delegator) external;
+
     // For testing
 
     function grantRole(bytes32 role, address account) external;

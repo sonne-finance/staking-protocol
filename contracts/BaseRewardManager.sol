@@ -114,6 +114,13 @@ contract BaseRewardManager is AccessControlUpgradeable {
         }
     }
 
+    function setDelegator(address recipient, address delegator) public onlyRole(MANAGER_ROLE) {
+        sSonneDistributor.setDelegator(recipient, delegator);
+        uUsdcDistributor.setDelegator(recipient, delegator);
+        sAeroDistributor.setDelegator(recipient, delegator);
+        uAeroDistributor.setDelegator(recipient, delegator);
+    }
+
     function pullTokenInternal(address token, uint256 amount) internal {
         if (amount == type(uint256).max) {
             amount = token.balanceOf(msg.sender);
@@ -123,9 +130,8 @@ contract BaseRewardManager is AccessControlUpgradeable {
     }
 
     function swapUSDCtoSonneInternal(uint256 usdcAmount) internal {
-        IRouter.Route[] memory path = new IRouter.Route[](2);
-        path[0] = IRouter.Route({from: usdc, to: usdbc, stable: true, factory: address(0)});
-        path[1] = IRouter.Route({from: usdbc, to: sonne, stable: false, factory: address(0)});
+        IRouter.Route[] memory path = new IRouter.Route[](1);
+        path[0] = IRouter.Route({from: usdc, to: sonne, stable: false, factory: address(0)});
 
         usdc.safeApprove(address(router), usdcAmount);
         router.swapExactTokensForTokens(usdcAmount, 0, path, address(this), block.timestamp);
